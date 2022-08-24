@@ -19,7 +19,7 @@ services:
           BUILD_NUMBER: ${BUILD_NUMBER}
           UBUNTU_IMAGE_VERSION: ${UBUNTU_IMAGE_VERSION}
           CMAKE_INSTALL_PREFIX: ${EII_INSTALL_PATH}
-      image: pid-controller-1.0
+      image: ghcr.io/uwc-control-app/pid-controller-1.0:latest
       container_name: pid-controller
       hostname: pid-controller
       read_only: true
