@@ -1,0 +1,40 @@
+{
+    "config": {
+    },
+    "interfaces": {
+        "Subscribers": [
+            {
+                "EndPoint": {
+                    "SocketDir": "/EII/sockets",
+                    "SocketFile": "backend-socket"
+                },
+                "Name": "PID-Controller-Subscriber",
+                "PublisherAppName": "ZmqBroker",
+                "Topics": [
+                    "TCP/RT/update","RTU/RT/update"
+                ],
+                "Type": "zmq_ipc",
+                "zmq_recv_hwm": 1
+            }
+        ],
+        "Publishers": [
+            {
+                "AllowedClients": [
+                    "*"
+                ],
+                "EndPoint": {
+                    "SocketDir": "/EII/sockets",
+                    "SocketFile": "frontend-socket"
+                },
+                "Name": "PIDController-Publisher",
+                "Topics": [
+                    "RT/write/*"
+                ],
+                "Type": "zmq_ipc",
+                "BrokerAppName":"ZmqBroker",
+                "brokered":true
+            }
+        ]
+    }
+  }
+  

@@ -1,0 +1,66 @@
+diff --git a/build_scripts/02_provision_build_UWC.sh b/build_scripts/02_provision_build_UWC.sh
+index bdc2fa4..526c878 100755
+--- a/build_scripts/02_provision_build_UWC.sh
++++ b/build_scripts/02_provision_build_UWC.sh
+@@ -585,7 +585,8 @@ usage()
+                             7: Running Basic UWC micro-services with time series services (Telegraf & InfluxDBCOnnector) along with Sparkplug service, Sample SamplePublisher and Sample SampleSubscriber
+                             8: Running the Sample DB publisher with Telegraf, InfluxDBCOnnector, ZmqBroker & Etcd container
+                             9: Basic UWC micro-services with Sample EMB publisher and subscriber
+-                            10: All modules UWC modules, KPI-tactic Application, SPARKPLUG-BRIDGE, Telegraf, InfluxDBCOnnector, ZmqBroker, Etcd container, Sample SamplePublisher and Sample SampleSubscriber"
++                            10: All modules UWC modules, KPI-tactic Application, SPARKPLUG-BRIDGE, Telegraf, InfluxDBCOnnector, ZmqBroker, Etcd container, Sample SamplePublisher and Sample SampleSubscriber
++                            11: All modules with PID-Controller Application, SPARKPLUG-BRIDGE, Sample SamplePublisher and Sample SampleSubscriber"
+     echo
+     echo "${INFO}--isTLS  yes/no to enable/disable TLS for sparkplug-bridge. Only applicable for recipes 3 and 4"
+     echo 
+diff --git a/modbus-master/modbus_RTU/config.json b/modbus-master/modbus_RTU/config.json
+index f0ef386..b1aec43 100644
+--- a/modbus-master/modbus_RTU/config.json
++++ b/modbus-master/modbus_RTU/config.json
+@@ -15,7 +15,7 @@
+                     "RT/read","RT/write","NRT/read","NRT/write"
+                 ],
+                 "Type": "zmq_ipc",
+-                "zmq_recv_hwm": 1000
++                "zmq_recv_hwm": 1
+             }
+         ],
+         "Publishers": [
+diff --git a/modbus-master/modbus_RTU/docker-compose.yml b/modbus-master/modbus_RTU/docker-compose.yml
+index 84109b0..7336404 100644
+--- a/modbus-master/modbus_RTU/docker-compose.yml
++++ b/modbus-master/modbus_RTU/docker-compose.yml
+@@ -35,7 +35,7 @@ services:
+         EII_USER_NAME: ${EII_USER_NAME}
+         UBUNTU_IMAGE_VERSION: ${UBUNTU_IMAGE_VERSION}
+         CMAKE_INSTALL_PREFIX: ${EII_INSTALL_PATH}
+-    image: ${DOCKER_REGISTRY}openedgeinsights/modbus-rtu-master:${UWC_VERSION}
++    image: ghcr.io/uwc-control-app/modbus-tcp-master:${UWC_VERSION}
+     container_name: modbus-rtu-master
+     hostname: modbus-rtu-master
+     read_only: true
+diff --git a/modbus-master/modbus_TCP/config.json b/modbus-master/modbus_TCP/config.json
+index 83b5276..293da91 100644
+--- a/modbus-master/modbus_TCP/config.json
++++ b/modbus-master/modbus_TCP/config.json
+@@ -15,7 +15,7 @@
+                     "RT/read","RT/write","NRT/read","NRT/write"
+                 ],
+                 "Type": "zmq_ipc",
+-                "zmq_recv_hwm": 1000
++                "zmq_recv_hwm": 1
+             }
+         ],
+         "Publishers": [
+diff --git a/modbus-master/modbus_TCP/docker-compose.yml b/modbus-master/modbus_TCP/docker-compose.yml
+index 7e4362f..2e47801 100644
+--- a/modbus-master/modbus_TCP/docker-compose.yml
++++ b/modbus-master/modbus_TCP/docker-compose.yml
+@@ -35,7 +35,7 @@ services:
+         EII_USER_NAME: ${EII_USER_NAME}
+         UBUNTU_IMAGE_VERSION: ${UBUNTU_IMAGE_VERSION}
+         CMAKE_INSTALL_PREFIX: ${EII_INSTALL_PATH}
+-    image: ${DOCKER_REGISTRY}openedgeinsights/modbus-tcp-master:${UWC_VERSION}
++    image: ghcr.io/uwc-control-app/modbus-rtu-master:${UWC_VERSION}
+     container_name: modbus-tcp-master
+     hostname: modbus-tcp-master
+     read_only: true
