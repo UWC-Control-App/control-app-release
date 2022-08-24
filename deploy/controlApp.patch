@@ -90,14 +90,16 @@ index f0ef386..b1aec43 100644
          ],
          "Publishers": [
 diff --git a/modbus-master/modbus_RTU/docker-compose.yml b/modbus-master/modbus_RTU/docker-compose.yml
-index 84109b0..9d57db1 100644
+index 84109b0..e42341a 100644
 --- a/modbus-master/modbus_RTU/docker-compose.yml
 +++ b/modbus-master/modbus_RTU/docker-compose.yml
-@@ -36,6 +36,7 @@ services:
+@@ -35,7 +35,8 @@ services:
+         EII_USER_NAME: ${EII_USER_NAME}
          UBUNTU_IMAGE_VERSION: ${UBUNTU_IMAGE_VERSION}
          CMAKE_INSTALL_PREFIX: ${EII_INSTALL_PATH}
-     image: ${DOCKER_REGISTRY}openedgeinsights/modbus-rtu-master:${UWC_VERSION}
-+    #image: ghcr.io/uwc-control-app/modbus-rtu-master:${UWC_VERSION}
+-    image: ${DOCKER_REGISTRY}openedgeinsights/modbus-rtu-master:${UWC_VERSION}
++    #image: ${DOCKER_REGISTRY}openedgeinsights/modbus-rtu-master:${UWC_VERSION}
++    image: ghcr.io/uwc-control-app/modbus-rtu-master:${UWC_VERSION}
      container_name: modbus-rtu-master
      hostname: modbus-rtu-master
      read_only: true
