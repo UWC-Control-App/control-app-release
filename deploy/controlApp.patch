@@ -1,8 +1,48 @@
 diff --git a/build_scripts/02_provision_build_UWC.sh b/build_scripts/02_provision_build_UWC.sh
-index bdc2fa4..526c878 100755
+index f418f94..8bb039f 100755
 --- a/build_scripts/02_provision_build_UWC.sh
 +++ b/build_scripts/02_provision_build_UWC.sh
-@@ -585,7 +585,8 @@ usage()
+@@ -187,6 +187,7 @@ configure_usecase()
+         echo "8) Running the Sample DB publisher with Telegraf, InfluxDBCOnnector, ZmqBroker & Etcd container."
+         echo "9) Basic UWC micro-services with Sample SamplePublisher and Sample SampleSubscriber."
+         echo "10) All modules UWC modules, KPI-tactic Application, SPARKPLUG-BRIDGE, Telegraf, InfluxDBCOnnector, ZmqBroker, Etcd container, Sample SamplePublisher and Sample SampleSubscriber"
++        echo "11) All modules with PID-Controller Application, SPARKPLUG-BRIDGE, Sample SamplePublisher and Sample SampleSubscriber"
+         read yn
+     fi
+     cd ${eii_build_dir}
+@@ -302,7 +303,20 @@ configure_usecase()
+                 echo "${GREEN}EII builder script successfully generated consolidated docker-compose & configuration files.${NC}"
+                 IS_SCADA=1
+                 break
+-                ;;                          
++                ;;
++
++            11)      
++                echo "Running Basic UWC micro-services with PID-Controller Application & with Sparkplug-Bridge, Sample SamplePublisher and Sample SampleSubscriber"
++                python3 builder.py -f ../uwc/uwc_recipes/uwc-pipeline-with-sparkplug-bridge-and-pid-controller-app.yml
++                if [ "$?" != 0 ]; then
++                    echo "${RED}Error running EII builder script. Check the recipe configuration file...!${NC}"
++                    exit 1
++                fi
++                echo "${GREEN}EII builder script successfully generated consolidated docker-compose & configuration files.${NC}"
++                IS_SCADA=1
++                break
++                ;;          
++                                          
+             *)
+                 echo "Proper use-case option not selected. PLease select the right option as per help menu & re-build by executing 02_provision_build_UWC.sh script: ${yn}"
+                 usage
+@@ -438,7 +452,8 @@ parse_command_line_args()
+                             7: Running Basic UWC micro-services with time series services (Telegraf & InfluxDBCOnnector) along with Sparkplug service, Sample SamplePublisher and Sample SampleSubscriber
+                             8: Running the Sample DB publisher with Telegraf, InfluxDBCOnnector, ZmqBroker & Etcd container
+                             9: Basic UWC micro-services with Sample SamplePublisher and Sample SampleSubscriber
+-                            10: All modules UWC modules, KPI-tactic Application, SPARKPLUG-BRIDGE, Telegraf, InfluxDBCOnnector, ZmqBroker, Etcd container, Sample SamplePublisher and Sample SampleSubscriber"
++                            10: All modules UWC modules, KPI-tactic Application, SPARKPLUG-BRIDGE, Telegraf, InfluxDBCOnnector, ZmqBroker, Etcd container, Sample SamplePublisher and Sample SampleSubscriber
++                            11: All modules with PID-Controller Application, SPARKPLUG-BRIDGE, Sample SamplePublisher and Sample SampleSubscriber"
+ 
+         echo "Enter the recipe (e.g. --recipe=1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 ):"
+         read recipe 
+@@ -570,7 +585,8 @@ usage()
                              7: Running Basic UWC micro-services with time series services (Telegraf & InfluxDBCOnnector) along with Sparkplug service, Sample SamplePublisher and Sample SampleSubscriber
                              8: Running the Sample DB publisher with Telegraf, InfluxDBCOnnector, ZmqBroker & Etcd container
                              9: Basic UWC micro-services with Sample EMB publisher and subscriber
@@ -12,6 +52,30 @@ index bdc2fa4..526c878 100755
      echo
      echo "${INFO}--isTLS  yes/no to enable/disable TLS for sparkplug-bridge. Only applicable for recipes 3 and 4"
      echo 
+diff --git a/build_scripts/03_Run_UWC.sh b/build_scripts/03_Run_UWC.sh
+index abf0d22..8931fca 100755
+--- a/build_scripts/03_Run_UWC.sh
++++ b/build_scripts/03_Run_UWC.sh
+@@ -76,6 +76,7 @@ function harden()
+ 	docker container update --pids-limit=100 --restart=on-failure:5 --cpu-shares 512 -m 1G --memory-swap -1 ia_configmgr_agent
+     docker ps -q --filter "name=sample_publisher" | grep -q . && docker container update --pids-limit=100 --cpu-shares 512 -m 1G --memory-swap -1 sample_publisher
+     docker ps -q --filter "name=ia_sample_subscriber" | grep -q . && docker container update --pids-limit=100 --cpu-shares 512 -m 1G --memory-swap -1 ia_sample_subscriber
++    docker ps -q --filter "name=pid-controller" | grep -q . && docker container update --pids-limit=100 --cpu-shares 512 -m 1G --memory-swap -1 pid-controller
+ }
+ function main()
+ {
+diff --git a/build_scripts/05_applyConfigChanges.sh b/build_scripts/05_applyConfigChanges.sh
+index 3a4aff1..833e6c3 100755
+--- a/build_scripts/05_applyConfigChanges.sh
++++ b/build_scripts/05_applyConfigChanges.sh
+@@ -69,6 +69,7 @@ function harden()
+ 	docker ps -q --filter "name=sparkplug-bridge" | grep -q . && docker container update --pids-limit=100 --restart=on-failure:5 --cpu-shares 512 -m 1G --memory-swap -1 sparkplug-bridge
+ 	# Increase the pid limit of KPI to 500 to process larger number of threads.
+ 	docker ps -q --filter "name=kpi-tactic-app" | grep -q . && docker container update --pids-limit=500 --restart=on-failure:5 --cpu-shares 512 -m 1G --memory-swap -1 kpi-tactic-app
++        docker ps -q --filter "name=pid-controller" | grep -q . && docker container update --pids-limit=500 --restart=on-failure:5 --cpu-shares 512 -m 1G --memory-swap -1 pid-controller
+ }
+ 
+ export DOCKER_CONTENT_TRUST=1
 diff --git a/modbus-master/modbus_RTU/config.json b/modbus-master/modbus_RTU/config.json
 index f0ef386..b1aec43 100644
 --- a/modbus-master/modbus_RTU/config.json
