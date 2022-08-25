@@ -1,0 +1,15 @@
+file:
+  author: Control App Config utility
+  date: 20/06/2022 15:57:27
+  description: Device group gr1
+description: Device group gr1
+devicelist:
+- deviceinfo: gr1_dev1_device_pid.yml
+  id: dev1
+  protocol:
+    ipaddress: 172.16.7.48
+    port: 1699
+    protocol: PROTOCOL_TCP
+    unitid: '1'
+  tcp_master_info: tcp_master_info_gr1_1_pid.yml
+id: gr1

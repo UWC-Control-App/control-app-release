@@ -1,0 +1,65 @@
+file:
+  author: Control App Config utility
+  date: 20/06/2022 15:57:27
+  description: Datapoints for pid controller
+datapoints:
+- attributes:
+    addr: 0
+    dataPersist: true
+    datatype: FLOAT
+    type: HOLDING_REGISTER
+    width: 2
+  id: D0
+  polling:
+    pollinterval: 1
+    realtime: true
+- attributes:
+    addr: 2
+    dataPersist: true
+    datatype: FLOAT
+    type: HOLDING_REGISTER
+    width: 2
+  id: D1
+  polling:
+    pollinterval: 1
+    realtime: true
+- attributes:
+    addr: 4
+    dataPersist: true
+    datatype: FLOAT
+    type: HOLDING_REGISTER
+    width: 2
+  id: D2
+  polling:
+    pollinterval: 1
+    realtime: true
+- attributes:
+    addr: 6
+    dataPersist: true
+    datatype: FLOAT
+    type: HOLDING_REGISTER
+    width: 2
+  id: D3
+  polling:
+    pollinterval: 1
+    realtime: true
+- attributes:
+    addr: 8
+    dataPersist: true
+    datatype: FLOAT
+    type: HOLDING_REGISTER
+    width: 2
+  id: D4
+  polling:
+    pollinterval: 1
+    realtime: true
+- attributes:
+    addr: 10
+    dataPersist: true
+    datatype: FLOAT
+    type: HOLDING_REGISTER
+    width: 2
+  id: D5
+  polling:
+    pollinterval: 1
+    realtime: true
