@@ -32,4 +32,4 @@ cp <parent directory>/IEdgeInsights/uwc/pid/deploy/PID-controller-config.yml <pa
 
 9.  Perform step #11 with appropriate inputs depending on your use case. 
 
-10. Once the build is complete, verify modify the `/opt/intel/eii/uwc_data/PID-controller-config.yml` to configure desired number of loops and their respective poll and write datapoints. Alternatively, Use the Configuration-utility application and make sure to list newly created device group file name in `Devices_group_list.yml` file.  
+10. Once the build is complete, verify modify the `/opt/intel/eii/uwc_data/PID-controller-config.yml` to configure desired number of loops and their respective poll and write datapoints. A reference device group files can be found and copied from deploy directory. Alternatively, use the Configuration-utility application and make sure to list newly created device group file name in `Devices_group_list.yml` file.  
