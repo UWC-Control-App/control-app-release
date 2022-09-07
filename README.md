@@ -4,7 +4,7 @@ To deploy PID-Controller application,
 2.  Clone PID-Controller application source code into the <parent directory>/IEdgeInsights/uwc folder.
 ```
 cd <parent directory>/IEdgeInsights/uwc
-git clone https://github.com/UWC-Control-App/control-app pid
+git clone https://github.com/UWC-Control-App/control-app-release pid
 ```
 
 3.  Apply patch for build scripts and modbus container.
